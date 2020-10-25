@@ -14,7 +14,7 @@ const NoteMapper = () => {
         <View style={styles.note_mapper}>
             {
                 notes.map((note, index) => <View style={styles.note_card} key={note.id}>
-                    <NoteCard note={note} />
+                    <NoteCard note={note} index={index} />
                 </View>)
             }
             {

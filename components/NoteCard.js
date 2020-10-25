@@ -3,16 +3,16 @@ import {View, StyleSheet} from 'react-native';
 import {Card, Paragraph, useTheme} from 'react-native-paper';
 import { NoteContext } from '../context/NoteContext';
 
-const NoteCard = ({ note }) => {
+const NoteCard = ({ note, index }) => {
   const theme = useTheme();
   const { setNotePage, activeNote, setActiveNote, NOTE_ACTIONS } = useContext(NoteContext);
   // console.log('NOTE_ACTIONS', NOTE_ACTIONS)
 
-  const changeActive = () => setActiveNote(note);
+  const changeActive = () => setActiveNote(index);
   const showDialog = () => setNotePage({ visible: true, mode: NOTE_ACTIONS.VIEW });
 
   const cardPress = () => {
-    changeActive(note)
+    changeActive()
     showDialog()
   }
 

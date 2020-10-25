@@ -3,15 +3,36 @@ import {View, TextInput, StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import NoteNavigation from './NoteNavigation';
 import { NoteContext } from '../context/NoteContext';
-
+const initialNewNote = {
+    title: '',
+    note: '',
+    date_added: new Date(),
+    last_update: new Date(),
+}
 const Note = () => {
     const theme = useTheme();
-    const { activeNote, isNotePage, newNote, setNewNote, NOTE_ACTIONS } = useContext(NoteContext);
+    const { activeNote, isNotePage, notes, setNotes, NOTE_ACTIONS } = useContext(NoteContext);
 
     useEffect(() => {
-        setNewNote({ type: isNotePage.mode, data: activeNote })
+        // setNewNote({ type: isNotePage.mode, data: initialNewNote })
+        if (isNotePage.mode===NOTE_ACTIONS.NEW) {
+            setNotes(prev => {
+                return [initialNewNote, ...notes];
+            })
+        }
         console.log('---IS NOTE PAGE!', isNotePage)
     }, [])
+
+    const editNote = (data) => {
+        setNotes(prev => {
+            const newItems = [...prev];
+            // const idx = prev.map(o => o.id).indexOf(newNote.id);
+            const newItem = {...newItems[activeNote], ...data, last_update: new Date()};
+            newItems[activeNote] = newItem;
+    
+            return newItems;
+        })
+    }
 
     return (
         <View>
@@ -19,16 +40,16 @@ const Note = () => {
             <View style={{...styles.note, backgroundColor: theme.colors.surface}}>
                 <TextInput
                     style={styles.form_title}
-                    onChangeText={text => setNewNote({ type: NOTE_ACTIONS.EDIT, data: {title: text}})}
-                    value={newNote.title}
+                    onChangeText={text => editNote({ title: text })}
+                    value={notes[activeNote].title}
                     placeholder="Title"
                     autoCompleteType="off"
                     autoCorrect={false}
                 />
                 <TextInput
                     style={styles.form_note}
-                    onChangeText={text => setNewNote({ type: NOTE_ACTIONS.EDIT, data: {note: text}})}
-                    value={newNote.note}
+                    onChangeText={text => editNote({ note: text })}
+                    value={notes[activeNote].note}
                     placeholder="Note"
                     autoCompleteType="off"
                     autoCorrect={false}

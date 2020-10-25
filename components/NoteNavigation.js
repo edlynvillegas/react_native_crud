@@ -5,9 +5,9 @@ import { NoteContext } from '../context/NoteContext';
 
 const NoteNavigation = () => {
   const theme = useTheme();
-  const { autoSave } = useContext(NoteContext);
+  const { setNotePage } = useContext(NoteContext);
 
-  const backPage = () => autoSave();
+  const backPage = () => setNotePage({ visible: false });
   
   return (
     <View style={{...styles.header, backgroundColor: theme.colors.surface}}>
