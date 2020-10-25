@@ -11,7 +11,7 @@ const initialNotePage = {
 }
 const initialNewNote = {
     title: '',
-    description: '',
+    note: '',
     date_added: new Date(),
     last_update: new Date(),
 }
@@ -39,21 +39,21 @@ const NoteProvider = ({ children }) => {
       {
         id: 1,
         title: 'John Doe',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/15/2020',
         last_update: '01/15/2020',
       },
       {
         id: 2,
         title: 'Will Smith',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/23/2020',
         last_update: '01/23/2020',
       },
       {
         id: 3,
         title: 'Mary Jane',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/26/2020',
         last_update: '01/26/2020',
       },
@@ -61,35 +61,35 @@ const NoteProvider = ({ children }) => {
         id: 4,
         title: 'John Doe',
         position: 'Web Developer Team Lead',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/15/2020',
         last_update: '01/15/2020',
       },
       {
         id: 5,
         title: 'Will Smith',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/23/2020',
         last_update: '01/23/2020',
       },
       {
         id: 6,
         title: 'Mary Jane',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/26/2020',
         last_update: '01/26/2020',
       },
       {
         id: 7,
         title: 'Will Smith',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/23/2020',
         last_update: '01/23/2020',
       },
       {
         id: 8,
         title: 'Mary Jane',
-        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
+        note: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.',
         date_added: '01/26/2020',
         last_update: '01/26/2020',
       },
@@ -112,6 +112,7 @@ const NoteProvider = ({ children }) => {
                 return newItems;
             })
         }
+        setNewNote({ type: NOTE_ACTIONS.NEW })
     }
 
     return (

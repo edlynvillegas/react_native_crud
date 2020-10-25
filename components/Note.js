@@ -27,8 +27,8 @@ const Note = () => {
                 />
                 <TextInput
                     style={styles.form_note}
-                    onChangeText={text => setNewNote({ type: NOTE_ACTIONS.EDIT, data: {description: text}})}
-                    value={newNote.description}
+                    onChangeText={text => setNewNote({ type: NOTE_ACTIONS.EDIT, data: {note: text}})}
+                    value={newNote.note}
                     placeholder="Note"
                     autoCompleteType="off"
                     autoCorrect={false}
