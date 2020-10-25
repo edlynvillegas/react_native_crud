@@ -1,14 +1,16 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Card, Paragraph, useTheme} from 'react-native-paper';
 import { NoteContext } from '../context/NoteContext';
+import { useStringFunction } from '../custom-hooks';
 
-const NoteCard = ({ note, index }) => {
+const NoteCard = ({ note }) => {
   const theme = useTheme();
-  const { setNotePage, activeNote, setActiveNote, NOTE_ACTIONS } = useContext(NoteContext);
+  const { trimStr } = useStringFunction();
+  const { setNotePage, setActiveNote, NOTE_ACTIONS } = useContext(NoteContext);
   // console.log('NOTE_ACTIONS', NOTE_ACTIONS)
 
-  const changeActive = () => setActiveNote(index);
+  const changeActive = () => setActiveNote(note.note_id);
   const showDialog = () => setNotePage({ visible: true, mode: NOTE_ACTIONS.VIEW });
 
   const cardPress = () => {
@@ -16,15 +18,11 @@ const NoteCard = ({ note, index }) => {
     showDialog()
   }
 
-  // useEffect(() => {
-  //   showDialog()
-  // }, [activeNote])
-
   return (
       <Card style={styles.card_content} elevation={0} onPress={cardPress}>
         <Card.Title title={note.title} />
         <Card.Content>
-            <Paragraph>{note.note}</Paragraph>
+            <Paragraph>{trimStr(note.note, 60)}</Paragraph>
         </Card.Content>
       </Card>
   );

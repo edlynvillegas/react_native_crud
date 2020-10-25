@@ -1,34 +1,39 @@
-import React, {useEffect, useReducer, useContext} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import NoteNavigation from './NoteNavigation';
 import { NoteContext } from '../context/NoteContext';
-const initialNewNote = {
-    title: '',
-    note: '',
-    date_added: new Date(),
-    last_update: new Date(),
-}
+import { v4 as uuid } from 'uuid';
+
 const Note = () => {
     const theme = useTheme();
     const { activeNote, isNotePage, notes, setNotes, NOTE_ACTIONS } = useContext(NoteContext);
+    const [activeIndex, setIndex] = useState(0);
 
     useEffect(() => {
         // setNewNote({ type: isNotePage.mode, data: initialNewNote })
         if (isNotePage.mode===NOTE_ACTIONS.NEW) {
+            const initialNewNote = {
+                note_id: uuid(),
+                title: '',
+                note: '',
+                date_added: new Date(),
+                last_update: new Date(),
+            }
             setNotes(prev => {
                 return [initialNewNote, ...prev];
             })
+        } else {
+            const idx = notes.map(o => o.note_id).indexOf(activeNote);
+            setIndex(idx)
         }
-        console.log('---IS NOTE PAGE!', isNotePage)
     }, [])
 
     const editNote = (data) => {
         setNotes(prev => {
             const newItems = [...prev];
-            // const idx = prev.map(o => o.id).indexOf(newNote.id);
-            const newItem = {...newItems[activeNote], ...data, last_update: new Date()};
-            newItems[activeNote] = newItem;
+            const newItem = {...newItems[activeIndex], ...data, last_update: new Date()};
+            newItems[activeIndex] = newItem;
     
             return newItems;
         })
@@ -41,7 +46,7 @@ const Note = () => {
                 <TextInput
                     style={styles.form_title}
                     onChangeText={text => editNote({ title: text })}
-                    value={notes[activeNote].title}
+                    value={notes[activeIndex].title}
                     placeholder="Title"
                     autoCompleteType="off"
                     autoCorrect={false}
@@ -49,7 +54,7 @@ const Note = () => {
                 <TextInput
                     style={styles.form_note}
                     onChangeText={text => editNote({ note: text })}
-                    value={notes[activeNote].note}
+                    value={notes[activeIndex].note}
                     placeholder="Note"
                     autoCompleteType="off"
                     autoCorrect={false}
