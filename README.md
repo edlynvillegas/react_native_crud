@@ -1,8 +1,8 @@
-# react_native_crud
+# Google Keep Notes (Clone)
 
 <img src="https://github.com/edlynvillegas/react_native_crud/blob/main/thumbnail1.jpg" alt="Thumbnail" width="200"><img src="https://github.com/edlynvillegas/react_native_crud/blob/main/thumbnail2.jpg" alt="Thumbnail" width="200">
 
-##### Google Keep Notes (Clone)
+Features:
 * Create New Note
 * View Notes
 * Edit Note
