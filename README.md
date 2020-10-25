@@ -1,12 +1,14 @@
 # react_native_crud
 
+<img src="https://github.com/edlynvillegas/react_native_crud/blob/main/thumbnail.jpg" alt="Thumbnail" width="200">
+
 ##### Google Keep Notes (Clone)
 * Create New Note
 * View Notes
 * Edit Note
 * Delete Note
 
-Features used:
+React features used:
 * Hooks
 * ContextAPI
 * Function component
