@@ -10,18 +10,44 @@ import NoteProvider from './context/NoteContext';
 import Header from './components/Header';
 import Main from './components/Main';
 import Navigation from './components/Navigation';
-// import UsersTable from './components/UsersTable';
+
+const THEME = {
+  light: {
+    surface: '#FFF',
+    text: '#000',
+    background: 'rgba(0,0,0,0.020)',
+    card: '#FFF'
+  },
+  dark: {
+    surface: '#000',
+    text: '#FFF',
+    background: '#000',
+    card: 'rgba(255,255,255,0.2)'
+  }
+}
+
+const init_theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#ffd800',
+    surface: '#000',
+    text: '#FFF',
+    background: '#000',
+    card: 'rgba(255,255,255,0.2)',
+  },
+};
 
 const App = () => {
   const theme = useTheme();
 
   return (
     <NoteProvider>
-      <PaperProvider theme={DefaultTheme}>
+      <PaperProvider theme={init_theme}>
         <View
           style={{
             ...styles.mainContainer,
-            backgroundColor: theme.colors.background,
+            backgroundColor: theme.colors.text,
           }}>
           <Header />
           <Main />

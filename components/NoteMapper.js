@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {Image, View, StyleSheet} from 'react-native';
-import {Portal} from 'react-native-paper';
+import {Title, Portal} from 'react-native-paper';
 import NoteCard from './NoteCard';
 import Note from './Note';
 import { NoteContext } from '../context/NoteContext';
@@ -13,9 +13,11 @@ const NoteMapper = () => {
     return (
         <View style={styles.note_mapper}>
             {
-                notes.map((note, index) => <View style={styles.note_card} key={note.note_id}>
-                    <NoteCard note={note} index={index} />
-                </View>)
+              notes.length > 0 ?
+              notes.map((note, index) => <View style={styles.note_card} key={note.note_id}>
+                  <NoteCard note={note} index={index} />
+              </View>) :
+              <Title>Wow, such empty..</Title>
             }
             {
               isNotePage.visible ?

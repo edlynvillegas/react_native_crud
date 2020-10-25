@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {FAB, useTheme} from 'react-native-paper';
 import { NoteContext } from '../context/NoteContext';
 
@@ -9,7 +9,7 @@ const Navigation = () => {
 
     return (
         <FAB
-            style={{...styles.fab, backgroundColor: theme.colors.accent}}
+            style={{...styles.fab, backgroundColor: theme.colors.primary}}
             large
             icon="plus"
             onPress={() => setNotePage({ visible: true, mode: NOTE_ACTIONS.NEW })}

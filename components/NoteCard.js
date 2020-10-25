@@ -19,7 +19,7 @@ const NoteCard = ({ note }) => {
   }
 
   return (
-      <Card style={styles.card_content} elevation={0} onPress={cardPress}>
+      <Card style={{...styles.card_content, backgroundColor: theme.colors.card}} elevation={0} onPress={cardPress}>
         <Card.Title title={note.title} />
         <Card.Content>
             <Paragraph>{trimStr(note.note, 60)}</Paragraph>

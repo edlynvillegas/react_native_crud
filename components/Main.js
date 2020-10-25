@@ -1,10 +1,12 @@
 import React, {useContext, useEffect} from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
+import { useTheme } from 'react-native-paper';
 import NoteMapper from './NoteMapper';
 import { NoteContext } from '../context/NoteContext';
 
 const Main = () => {
-  const { autoSave } = useContext(NoteContext);
+  // const { autoSave } = useContext(NoteContext);
+  const theme = useTheme();
 
   // useEffect(() => {
   //   return () => autoSave()
@@ -12,7 +14,7 @@ const Main = () => {
   
   return (
     <ScrollView>
-        <View style={styles.sectionContainer}>
+        <View style={{...styles.sectionContainer, backgroundColor: theme.colors.background}}>
             <NoteMapper />
         </View>
     </ScrollView>
