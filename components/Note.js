@@ -50,7 +50,7 @@ const Note = () => {
                     onChangeText={text => editNote({ title: text })}
                     value={notes[activeIndex].title}
                     placeholder="Title"
-                    placeholderTextColor={theme.colors.text}
+                    placeholderTextColor={theme.colors.card}
                     autoCompleteType="off"
                     autoCorrect={false}
                 />
@@ -59,7 +59,7 @@ const Note = () => {
                     onChangeText={text => editNote({ note: text })}
                     value={notes[activeIndex].note}
                     placeholder="Note"
-                    placeholderTextColor={theme.colors.text}
+                    placeholderTextColor={theme.colors.card}
                     autoCompleteType="off"
                     autoCorrect={false}
                     multiline
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     form_title: {
-        fontSize: 20,
+        fontSize: 23,
+        fontWeight: "600",
         padding: 0,
         marginBottom: 10,
     },

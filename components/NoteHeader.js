@@ -26,13 +26,21 @@ const NoteNavigation = () => {
   
   return (
     <View style={{...styles.header, backgroundColor: theme.colors.surface}}>
-        <IconButton
+        {/* <IconButton
             icon="chevron-left"
             color={theme.colors.primary}
             size={30}
             accessibilityLabel="Back"
             onPress={() => backPage()}
-        />
+        /> */}
+        <Button
+          style={{
+            ...styles.button,
+            color: theme.colors.text
+          }}
+          icon="chevron-left"
+          mode="outlined"
+          onPress={() => backPage()}>Back</Button>
         <IconButton
             icon="trash-can"
             color={theme.colors.primary}
@@ -59,11 +67,15 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: 80,
-    padding: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
+  button: {
+    padding: 0,
+  }
 });
 
 export default NoteNavigation;
