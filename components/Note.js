@@ -17,7 +17,7 @@ const Note = () => {
         // setNewNote({ type: isNotePage.mode, data: initialNewNote })
         if (isNotePage.mode===NOTE_ACTIONS.NEW) {
             setNotes(prev => {
-                return [initialNewNote, ...notes];
+                return [initialNewNote, ...prev];
             })
         }
         console.log('---IS NOTE PAGE!', isNotePage)
