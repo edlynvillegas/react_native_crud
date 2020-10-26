@@ -1,50 +1,30 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import { v4 as uuid } from 'uuid';
-
 // Components
 import NoteHeader from './NoteHeader';
-
+// Context
 import { NoteContext } from '../context/NoteContext';
 
 const Note = () => {
     const theme = useTheme();
     const { activeNote, isNotePage, notes, initNote, setInitNote, NOTE_ACTIONS } = useContext(NoteContext);
-    const [activeIndex, setIndex] = useState(0);
 
     useEffect(() => {
-        // setNewNote({ type: isNotePage.mode, data: initialNewNote })
         if (isNotePage.mode===NOTE_ACTIONS.NEW) {
-            console.log('NOTES:', notes.length)
-            const initialNewNote = {
+            setInitNote({
                 id: uuid(),
                 title: '',
                 note: '',
-            }
-            setInitNote(initialNewNote)
-            // setNotes(prev => {
-            //     return [initialNewNote, ...prev];
-            // })
+            })
         } else {
             const idx = notes.map(o => o.id).indexOf(activeNote);
-            // console.log('EDIT NOTE', idx)
-            setIndex(idx)
             setInitNote(notes[idx])
-            // setInitNote(notes[idx])
         }
     }, [])
 
-    const editNote = (data) => {
-        setInitNote(prev => ({...prev, ...data}))
-        // setNotes(prev => {
-        //     const newItems = [...prev];
-        //     const newItem = {...newItems[activeIndex], ...data, last_update: new Date()};
-        //     newItems[activeIndex] = newItem;
-    
-        //     return newItems;
-        // })
-    }
+    const editNote = (data) => setInitNote(prev => ({...prev, ...data}))
 
     return (
         <View>

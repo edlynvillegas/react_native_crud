@@ -1,18 +1,19 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {Image, View, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {Title, Portal} from 'react-native-paper';
+// Components
 import NoteCard from './NoteCard';
 import Note from './Note';
+// Context
 import { NoteContext } from '../context/NoteContext';
 // API
 import { getNotes } from '../ApiService';
 
 const NoteMapper = () => {
     const [loading, setLoading] = useState(false);
-    const { setNotes, isNotePage, activeNote, notes } = useContext(NoteContext);
+    const { setNotes, isNotePage, activeNote, notes, setSnackbar } = useContext(NoteContext);
     
     useEffect(() => {
-      console.log('....fetch!!!.......')
       fetchNotes()
     }, []);
 
@@ -21,14 +22,13 @@ const NoteMapper = () => {
     // }, [notes]);
 
     const fetchNotes = () => {
-      console.log('Fetching notes...')
       setLoading(true)
       getNotes().then(notes => {
         setLoading(false)
         setNotes(notes.data)
       }).catch(({ message }) => {
         setLoading(false)
-        console.log('Fetch Error:::', message)
+        setSnackbar({ visible: true, message: 'Error fetching notes..'})
       })
     }
     

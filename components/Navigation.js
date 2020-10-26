@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {FAB, useTheme} from 'react-native-paper';
+// Context
 import { NoteContext } from '../context/NoteContext';
 
 const Navigation = () => {

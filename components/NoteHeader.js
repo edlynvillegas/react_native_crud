@@ -1,69 +1,89 @@
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { useTheme, IconButton, Button, Paragraph, Dialog, Portal } from 'react-native-paper';
+// Context
 import { NoteContext } from '../context/NoteContext';
 // API
 import { saveNote, editNote, removeNote } from '../ApiService';
 
 const NoteNavigation = () => {
   const theme = useTheme();
-  const { setNotePage, activeNote, notes, setNotes, initNote, isNotePage, NOTE_ACTIONS } = useContext(NoteContext);
+  const { setNotePage, activeNote, notes, setNotes, initNote, isNotePage, NOTE_ACTIONS, setSnackbar } = useContext(NoteContext);
   const [visible, setVisible] = useState(false);
 
+  // Back to home
   const backPage = () => {
     if (isNotePage.mode===NOTE_ACTIONS.NEW) {
-      setNotes(prev => ([initNote, ...prev]))
       postNote(initNote)
     } else {
-      const newItems = [...notes];
-      const idx = notes.map(o => o.id).indexOf(activeNote);
-      const t = newItems[idx].title === initNote.title;
-      const n = newItems[idx].note === initNote.note;
-      if (!(t && n)) { // edited
-        setNotes(prev => {
-          newItems.splice(idx, 1);
-          return [initNote, ...newItems];
-        })
-        modNote(initNote)
-      }
+      modNote()
     }
     setNotePage({ visible: false })
   };
+
+  // Delete note
   const deleteNote = () => {
-    var arr = [...notes];
-    const index = arr.map(o => o.id).indexOf(activeNote);
-    if (index !== -1) {
-        arr.splice(index, 1);
-        setNotes(arr)
-    }
-    remNote(activeNote);
-    setNotePage({ visible: false })
+    hideDialog()
+    remNote()
   };
   
+  // Show dialog
   const showDialog = () => setVisible(true);
 
+  // Hide dialog
   const hideDialog = () => setVisible(false);
 
-  const postNote = (newNote) => {
-    saveNote(newNote).then(() => {
-      console.log('Successfully added!')
-    }).catch(({ message }) => {
-      console.log('Fetch Error:', message)
+  // API Call: Save note
+  const postNote = () => {
+    saveNote(initNote).then(() => {
+      setNotes(prev => ([initNote, ...prev]))
+      setSnackbar({ visible: true, message: 'Successfully saved!'})
     })
+    .catch(() => setSnackbar({ visible: true, message: 'Error saving note..'}))
   }
-  const modNote = (newNote) => {
-    editNote(newNote).then(() => {
-      console.log('Successfully edited!')
-    }).catch((err) => {
-      console.log('Edit Error:', err)
-    })
+
+  // API Call: Edit note
+  const modNote = () => {
+    const idx = notes.map(o => o.id).indexOf(activeNote);
+    const t = notes[idx].title === initNote.title;
+    const n = notes[idx].note === initNote.note;
+    if (!(t && n)) { // edited
+      editNote(initNote)
+        .then(() => {
+          setNotes(prev => {
+            prev.splice(idx, 1);
+            return [initNote, ...prev];
+          })
+          setSnackbar({ visible: true, message: 'Successfully edited!'})
+        })
+        .catch(() => setSnackbar({ visible: true, message: 'Error editing note..'}))
+    }
   }
-  const remNote = (id) => {
-    removeNote(id).then(() => {
-      console.log('Successfully deleted!')
-    }).catch((err) => {
-      console.log('Delete Error:', err)
-    })
+
+  // API Call: Remove note
+  const remNote = () => {
+    if (isNotePage.mode===NOTE_ACTIONS.NEW) {
+      var arr = [...notes];
+      const index = arr.map(o => o.id).indexOf(activeNote);
+      if (index !== -1) {
+          arr.splice(index, 1);
+          setNotes(arr)
+      }
+      setNotePage({ visible: false })
+    } else {
+      removeNote(activeNote)
+        .then(() => {
+          var arr = [...notes];
+          const index = arr.map(o => o.id).indexOf(activeNote);
+          if (index !== -1) {
+              arr.splice(index, 1);
+              setNotes(arr)
+          }
+          setSnackbar({ visible: true, message: 'Successfully deleted!'})
+          setNotePage({ visible: false })
+        })
+        .catch(() => setSnackbar({ visible: true, message: 'Error deleting note..'}))
+    }
   }
   
   return (
@@ -110,7 +130,7 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 0,
-  }
+  },
 });
 
 export default NoteNavigation;

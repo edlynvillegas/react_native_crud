@@ -1,16 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import { useTheme } from 'react-native-paper';
+// Components
 import NoteMapper from './NoteMapper';
-import { NoteContext } from '../context/NoteContext';
 
 const Main = () => {
-  // const { autoSave } = useContext(NoteContext);
   const theme = useTheme();
-
-  // useEffect(() => {
-  //   return () => autoSave()
-  // }, [])
   
   return (
     <ScrollView>

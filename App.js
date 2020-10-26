@@ -10,6 +10,7 @@ import NoteProvider from './context/NoteContext';
 import Header from './components/Header';
 import Main from './components/Main';
 import Navigation from './components/Navigation';
+import Notification from './components/Notification';
 
 const init_theme = {
   ...DefaultTheme,
@@ -19,7 +20,7 @@ const init_theme = {
     surface: '#000',
     text: '#FFF',
     background: '#000',
-    card: 'rgba(255,255,255,0.2)',
+    card: '#3c3c3c',
   },
 };
 
@@ -36,9 +37,9 @@ const App = () => {
           }}>
           <Header />
           <Main />
+          <Notification />
           <Navigation />
         </View>
-        {/* <Note /> */}
       </PaperProvider>
     </NoteProvider>
   );
