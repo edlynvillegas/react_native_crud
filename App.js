@@ -11,21 +11,6 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Navigation from './components/Navigation';
 
-const THEME = {
-  light: {
-    surface: '#FFF',
-    text: '#000',
-    background: 'rgba(0,0,0,0.020)',
-    card: '#FFF'
-  },
-  dark: {
-    surface: '#000',
-    text: '#FFF',
-    background: '#000',
-    card: 'rgba(255,255,255,0.2)'
-  }
-}
-
 const init_theme = {
   ...DefaultTheme,
   colors: {

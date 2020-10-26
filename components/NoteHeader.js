@@ -2,37 +2,72 @@ import React, {useContext, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import { useTheme, IconButton, Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import { NoteContext } from '../context/NoteContext';
+// API
+import { saveNote, editNote, removeNote } from '../ApiService';
 
 const NoteNavigation = () => {
   const theme = useTheme();
-  const { setNotePage, activeNote, notes, setNotes } = useContext(NoteContext);
+  const { setNotePage, activeNote, notes, setNotes, initNote, isNotePage, NOTE_ACTIONS } = useContext(NoteContext);
   const [visible, setVisible] = useState(false);
 
-  const backPage = () => setNotePage({ visible: false });
+  const backPage = () => {
+    if (isNotePage.mode===NOTE_ACTIONS.NEW) {
+      setNotes(prev => ([initNote, ...prev]))
+      postNote(initNote)
+    } else {
+      const newItems = [...notes];
+      const idx = notes.map(o => o.id).indexOf(activeNote);
+      const t = newItems[idx].title === initNote.title;
+      const n = newItems[idx].note === initNote.note;
+      if (!(t && n)) { // edited
+        setNotes(prev => {
+          newItems.splice(idx, 1);
+          return [initNote, ...newItems];
+        })
+        modNote(initNote)
+      }
+    }
+    setNotePage({ visible: false })
+  };
   const deleteNote = () => {
     var arr = [...notes];
-    const index = arr.map(o => o.note_id).indexOf(activeNote);
-    console.log('DELETE THIS:', index)
+    const index = arr.map(o => o.id).indexOf(activeNote);
     if (index !== -1) {
         arr.splice(index, 1);
         setNotes(arr)
     }
-    backPage()
+    remNote(activeNote);
+    setNotePage({ visible: false })
   };
   
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => setVisible(false);
+
+  const postNote = (newNote) => {
+    saveNote(newNote).then(() => {
+      console.log('Successfully added!')
+    }).catch(({ message }) => {
+      console.log('Fetch Error:', message)
+    })
+  }
+  const modNote = (newNote) => {
+    editNote(newNote).then(() => {
+      console.log('Successfully edited!')
+    }).catch((err) => {
+      console.log('Edit Error:', err)
+    })
+  }
+  const remNote = (id) => {
+    removeNote(id).then(() => {
+      console.log('Successfully deleted!')
+    }).catch((err) => {
+      console.log('Delete Error:', err)
+    })
+  }
   
   return (
     <View style={{...styles.header, backgroundColor: theme.colors.surface}}>
-        {/* <IconButton
-            icon="chevron-left"
-            color={theme.colors.primary}
-            size={30}
-            accessibilityLabel="Back"
-            onPress={() => backPage()}
-        /> */}
         <Button
           style={{
             ...styles.button,

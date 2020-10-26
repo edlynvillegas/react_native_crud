@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Card, Paragraph, useTheme} from 'react-native-paper';
 import { NoteContext } from '../context/NoteContext';
@@ -10,7 +10,7 @@ const NoteCard = ({ note }) => {
   const { setNotePage, setActiveNote, NOTE_ACTIONS } = useContext(NoteContext);
   // console.log('NOTE_ACTIONS', NOTE_ACTIONS)
 
-  const changeActive = () => setActiveNote(note.note_id);
+  const changeActive = () => setActiveNote(note.id);
   const showDialog = () => setNotePage({ visible: true, mode: NOTE_ACTIONS.VIEW });
 
   const cardPress = () => {
@@ -20,9 +20,9 @@ const NoteCard = ({ note }) => {
 
   return (
       <Card style={{...styles.card_content, backgroundColor: theme.colors.card}} elevation={0} onPress={cardPress}>
-        <Card.Title title={note.title.length > 0 ? note.title : '(No title)'} />
+        <Card.Title title={ note.title && note.title.length > 0 ? note.title : '(No title)'} />
         <Card.Content>
-            <Paragraph>{note.note.length > 0 ? trimStr(note.note, 60) : '(Empty note)'}</Paragraph>
+            <Paragraph>{note.note && note.note.length > 0 ? trimStr(note.note, 60) : '(Empty note)'}</Paragraph>
         </Card.Content>
       </Card>
   );

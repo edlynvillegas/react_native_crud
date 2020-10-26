@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react';
 import {View, TextInput, StyleSheet} from 'react-native';
 import {useTheme} from 'react-native-paper';
 import { v4 as uuid } from 'uuid';
+
 // Components
 import NoteHeader from './NoteHeader';
 
@@ -9,36 +10,40 @@ import { NoteContext } from '../context/NoteContext';
 
 const Note = () => {
     const theme = useTheme();
-    const { activeNote, isNotePage, notes, setNotes, NOTE_ACTIONS } = useContext(NoteContext);
+    const { activeNote, isNotePage, notes, initNote, setInitNote, NOTE_ACTIONS } = useContext(NoteContext);
     const [activeIndex, setIndex] = useState(0);
 
     useEffect(() => {
         // setNewNote({ type: isNotePage.mode, data: initialNewNote })
         if (isNotePage.mode===NOTE_ACTIONS.NEW) {
+            console.log('NOTES:', notes.length)
             const initialNewNote = {
-                note_id: uuid(),
+                id: uuid(),
                 title: '',
                 note: '',
-                date_added: new Date(),
-                last_update: new Date(),
             }
-            setNotes(prev => {
-                return [initialNewNote, ...prev];
-            })
+            setInitNote(initialNewNote)
+            // setNotes(prev => {
+            //     return [initialNewNote, ...prev];
+            // })
         } else {
-            const idx = notes.map(o => o.note_id).indexOf(activeNote);
+            const idx = notes.map(o => o.id).indexOf(activeNote);
+            // console.log('EDIT NOTE', idx)
             setIndex(idx)
+            setInitNote(notes[idx])
+            // setInitNote(notes[idx])
         }
     }, [])
 
     const editNote = (data) => {
-        setNotes(prev => {
-            const newItems = [...prev];
-            const newItem = {...newItems[activeIndex], ...data, last_update: new Date()};
-            newItems[activeIndex] = newItem;
+        setInitNote(prev => ({...prev, ...data}))
+        // setNotes(prev => {
+        //     const newItems = [...prev];
+        //     const newItem = {...newItems[activeIndex], ...data, last_update: new Date()};
+        //     newItems[activeIndex] = newItem;
     
-            return newItems;
-        })
+        //     return newItems;
+        // })
     }
 
     return (
@@ -48,7 +53,7 @@ const Note = () => {
                 <TextInput
                     style={{...styles.form_title, color: theme.colors.text}}
                     onChangeText={text => editNote({ title: text })}
-                    value={notes[activeIndex].title}
+                    value={initNote.title}
                     placeholder="Title"
                     placeholderTextColor={theme.colors.card}
                     autoCompleteType="off"
@@ -57,7 +62,7 @@ const Note = () => {
                 <TextInput
                     style={{...styles.form_note, color: theme.colors.text}}
                     onChangeText={text => editNote({ note: text })}
-                    value={notes[activeIndex].note}
+                    value={initNote.note}
                     placeholder="Note"
                     placeholderTextColor={theme.colors.card}
                     autoCompleteType="off"
